@@ -2,10 +2,14 @@
 
 - The algorithms should be written in R language
 
+https://docs.google.com/document/d/1bG3yHXzI0wZFXIkBAqwWClbgedq6y113Y3R-8JhW_B0/edit?usp=sharing
+
+https://docs.google.com/presentation/d/18C3YFZJW5HquyxYj422ocArWMO6n0mq1RGYdwPkXlXY/edit?usp=sharing
+
 ## What we should do?
 
 + [x] We'll have to create a questionaire
-+ [ ] Weĺl have to make an algorithm in R that aims to process its informations
++ [ ] We'll have to make an algorithm in R that aims to process its informations
 
 We should contemplate the following items for all or most of the information from questionaire
 
@@ -19,3 +23,18 @@ We should contemplate the following items for all or most of the information fro
 + [ ] Calculate difference
 
 At the end, we'll need to extract those information in charts and make a slide for presenting it on 16/07
+
+## TODOs
+
++ [ ] Gender
++ [ ] Age
++ [ ] Semester
++ [ ] How much time uses internet
++ [ ] How long have been using computer
++ [ ] Believe that internet disturbs the graduation
+---
++ [ ] Age x Internet using time (daily)
++ [ ] Using internet for work x Work or Not
++ [ ] Age x Consider social network a toxic environment
++ [ ] How much time uses internet x Which device uses
++ [ ] Age x Which device uses
