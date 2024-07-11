@@ -1,3 +1,93 @@
+install.packages('readxl') #importar banco em excel
+install.packages('descr') #crosstable e teste qui-quadrado
+install.packages('scales')
+install.packages('Hmisc') # Para cálculos estatísticos ponderados
+install.packages('DescTools')
+
+library(readxl) #importar banco em excel
+library(descr)  #crosstable
+library(scales) #para formatar porcentagens
+library(Hmisc)
+library(DescTools)
+
+# Busca os dados
+current_directory <- getwd()
+caminho_arquivo <- paste(current_directory, "/probabilidade/dados.csv", sep = "")
+dados <- read.csv(caminho_arquivo, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+
+View(dados) # ver o banco de dados
+names(dados) # ver o nome das variaveis que estao no arquivo
+
+#------------------------- Sexo ------------------------------
+tabela_sexo <- table(dados$Sexo)
+porcentagens <- round(tabela_sexo / sum(tabela_sexo) * 100, 1)
+
+# Plotar gráfico de pizza com porcentagens formatadas
+pie(tabela_sexo, main = "Distribuição por Sexo dos participantes", labels = paste(names(tabela_sexo), "\n", porcentagens, "%"), col = c("lightblue", "pink"))
+legend("topright", legend = names(tabela_sexo))
+
+#------------------------- Idade -----------------------------
+attach(dados)
+Idade
+
+# Criar uma tabela de frequências
+freq <- table(Idade)
+
+# Substituir os nomes dos valores para versões mais curtas
+names(freq) <- c("17-20", "21-30", "31-40", "41-50")  # Ajuste conforme necessário
+
+# Criar histograma
+par(mar = c(7, 4, 4, 2) + 0.1)
+barplot(freq, main = "Histograma da Idade dos participantes", col = "lightblue", 
+        xlab = "Faixas Etárias", ylab = "Frequência", las = 2, cex.names = 0.8)
+
+# Definir os limites das classes
+limites_inf <- c(17, 21, 31, 41)
+limites_sup <- c(20, 30, 40, 50)
+
+# Calcular os pontos médios das classes
+pontos_medios <- (limites_inf + limites_sup) / 2
+
+# soma das frequencias
+total <- sum(freq)
+
+# Calcular a moda
+moda <- pontos_medios[which.max(freq)]
+cat("Moda:", moda)
+
+# Calcular a média ponderada
+media <- sum(pontos_medios * freq) / total
+cat("Média ponderada:", media)
+
+# Calcular a mediana
+freq_acum <- cumsum(freq)
+amplitudes <- limites_sup - limites_inf
+emd <- total/2 #elemento mediano
+classe_mediana <- which.max(freq_acum >= emd)  # Encontrar a classe mediana
+x = (emd - freq_acum[classe_mediana-1])/freq[classe_mediana]
+mediana <- limites_inf[classe_mediana] + (amplitudes[classe_mediana] * x) 
+cat("Mediana ponderada:", mediana, "\n")
+
+# Calcular o desvio padrão e variância
+somatorio <- sum(freq * (pontos_medios - media)^2)
+variancia <- somatorio/(total - 1)
+desvio_padrao <- sqrt(variancia)
+cat("Variância:", variancia, "\n")
+cat("Desvio padrão:", desvio_padrao, "\n")
+
+#Coeficiente de variacao
+coef_variacao <- (desvio_padrao / media) * 100
+cat("Coeficiente de variação", coef_variacao, "\n")
+#-----------------------------------------------------------
+
+
+
+
+# ----------------------------------------------------------------------------------
+#CODIGO ABAIXO É O ANTIGO, ADICIONAR ACIMA TODOS OS NOSSOS E DIVIDIR EM SEÇÃO
+#------------------------------------------------------------------------------------
+
+
 ########################
 #Introdu??o ao R Studio#
 ########################
