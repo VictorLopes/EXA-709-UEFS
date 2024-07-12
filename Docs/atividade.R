@@ -3,12 +3,14 @@ install.packages('descr') #crosstable e teste qui-quadrado
 install.packages('scales')
 install.packages('Hmisc') # Para cálculos estatísticos ponderados
 install.packages('DescTools')
+install.packages('ggplot2')
 
 library(readxl) #importar banco em excel
 library(descr)  #crosstable
 library(scales) #para formatar porcentagens
 library(Hmisc)
 library(DescTools)
+library(ggplot2)
 
 # Busca os dados
 current_directory <- getwd()
