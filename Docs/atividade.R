@@ -14,7 +14,7 @@ library(ggplot2)
 
 # Busca os dados
 current_directory <- getwd()
-caminho_arquivo <- paste(current_directory, "/probabilidade/dados.csv", sep = "")
+caminho_arquivo <- paste(current_directory, "/Docs/dados.csv", sep = "")
 dados <- read.csv(caminho_arquivo, header = TRUE, sep = ",", stringsAsFactors = FALSE)
 
 View(dados) # ver o banco de dados
@@ -189,7 +189,64 @@ ggplot(df_tabela_contingencia, aes(x = Semestre, y = Frequencia, fill = Você.ut
 detach(dados)
 
 #---------------------------------------------------------------------------------------
+#------------------------- Quanto tempo usa a internet diariamente (horas) -----------------------------
+attach(dados)
+tempo_conectado_internet_diario
 
+# Calcular a frequência do tempo de conexão
+freqTempoConexao <- table(tempo_conectado_internet_diario)
+names(freqTempoConexao) <- c("1-3 horas", "3-6 horas", "Acima de 6 horas")
+
+# Transformar a tabela de frequências em um data frame
+df_freqTempoConexao <- as.data.frame(freqTempoConexao)
+colnames(df_freqTempoConexao) <- c("TempoConexao", "Frequencia")
+
+# Criar o gráfico de barras
+ggplot(df_freqTempoConexao, aes(x = TempoConexao, y = Frequencia, fill = TempoConexao)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Distribuição do Tempo de Conexão Diário com a Internet",
+       x = "Tempo de Conexão",
+       y = "Frequência") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+  # Definir os limites das classes
+limites_inf <- c(1, 3, 6)
+limites_sup <- c(3, 6, 12)
+
+# Calcular os pontos médios das classes
+pontos_medios <- (limites_inf + limites_sup) / 2
+
+# soma das frequencias
+total <- sum(freq)
+
+# Calcular a moda
+moda <- pontos_medios[which.max(freq)]
+cat("Moda:", moda)
+
+# Calcular a média ponderada
+media <- sum(pontos_medios * freq) / total
+cat("Média ponderada:", media)
+
+# Calcular a mediana
+freq_acum <- cumsum(freq)
+amplitudes <- limites_sup - limites_inf
+emd <- total/2 #elemento mediano
+classe_mediana <- which.max(freq_acum >= emd)  # Encontrar a classe mediana
+x = (emd - freq_acum[classe_mediana-1])/freq[classe_mediana]
+mediana <- limites_inf[classe_mediana] + (amplitudes[classe_mediana] * x) 
+cat("Mediana ponderada:", mediana, "\n")
+
+# Calcular o desvio padrão e variância
+somatorio <- sum(freq * (pontos_medios - media)^2)
+variancia <- somatorio/(total - 1)
+desvio_padrao <- sqrt(variancia)
+cat("Variância:", variancia, "\n")
+cat("Desvio padrão:", desvio_padrao, "\n")
+
+#Coeficiente de variacao
+coef_variacao <- (desvio_padrao / media) * 100
+cat("Coeficiente de variação", coef_variacao, "\n")
 
 # ----------------------------------------------------------------------------------
 #CODIGO ABAIXO É O ANTIGO, ADICIONAR ACIMA TODOS OS NOSSOS E DIVIDIR EM SEÇÃO
