@@ -248,6 +248,32 @@ cat("Desvio padrão:", desvio_padrao, "\n")
 coef_variacao <- (desvio_padrao / media) * 100
 cat("Coeficiente de variação", coef_variacao, "\n")
 
+
+#----------------- Relação Idade x Ambiente tóxico ------------------------------------------#
+attach(dados)
+Idade
+Você.considera.as.redes.sociais.um.ambiente.tóxico.
+
+freqIdade <- table(Idade)
+names(freqIdade) <- c("17-20", "21-30", "31-40", "41-50")  # Ajuste conforme necessário
+
+freqAmbienteToxico <- table(Você.considera.as.redes.sociais.um.ambiente.tóxico.)
+freqAmbienteToxico
+names(freqAmbienteToxico) <- c("Sim", "Não")
+
+tabela_contingencia <- table(Idade, Você.considera.as.redes.sociais.um.ambiente.tóxico.)
+df_tabela_contingencia <- as.data.frame(tabela_contingencia)
+colnames(df_tabela_contingencia) <- c("Idade", "Você.considera.as.redes.sociais.um.ambiente.tóxico.", "Frequencia")
+
+ggplot(df_tabela_contingencia, aes(x = Idade, y = Frequencia, fill = Você.considera.as.redes.sociais.um.ambiente.tóxico.)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Relação entre Idade e visão das redes sociais como ambiente tóxico",
+       x = "Idade",
+       y = "Frequencia",
+       fill = "Você considera as redes sociais\num ambiente tóxico?") +
+  theme_minimal()
+detach(dados)
+
 # ----------------------------------------------------------------------------------
 #CODIGO ABAIXO É O ANTIGO, ADICIONAR ACIMA TODOS OS NOSSOS E DIVIDIR EM SEÇÃO
 #------------------------------------------------------------------------------------
