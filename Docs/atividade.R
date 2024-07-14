@@ -81,6 +81,60 @@ cat("Desvio padrão:", desvio_padrao, "\n")
 coef_variacao <- (desvio_padrao / media) * 100
 cat("Coeficiente de variação", coef_variacao, "\n")
 
+#------------------------- Semestre -----------------------------
+attach(dados)
+Semestre
+
+# Criar uma tabela de frequências
+freq <- table(Semestre)
+freq
+
+names(freq) <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "14")
+
+# Criar histograma
+par(mar = c(7, 4, 4, 2) + 0.1)
+barplot(freq, main = "Semestre dos participantes", col = "lightblue", 
+        xlab = "Semestres", ylab = "Frequência", las = 3, cex.names = 0.8)
+
+# soma das frequencias
+total <- sum(freq)
+freq
+total
+
+# Calcular a moda
+moda <- which.max(freq)
+cat("Moda:", moda)
+
+perc_maioria = max(freq) / total
+cat("% maioria:", perc_maioria)
+
+# Calcular a média ponderada
+media <- mean(freq)
+cat("Média:", media)
+
+# Calcular a mediana
+mediana <- median(freq)
+cat("Mediana:", mediana, "\n")
+
+# Calcular o desvio padrão e variância
+sd (freq) # Desvio padrão
+var(freq) # Variância
+
+
+cv=sd(freq)/mean(freq)*100 # coeficiente de variação
+cv
+
+
+somatorio <- sum(freq * (pontos_medios - media)^2)
+variancia <- somatorio/(total - 1)
+desvio_padrao <- sqrt(variancia)
+cat("Variância:", variancia, "\n")
+cat("Desvio padrão:", desvio_padrao, "\n")
+
+#Coeficiente de variacao
+coef_variacao <- (desvio_padrao / media) * 100
+cat("Coeficiente de variação", coef_variacao, "\n")
+
 #----------------- Relacao entre idade X tempo conexao internet------------------------------------------
 attach(dados)
 Idade
@@ -107,6 +161,34 @@ detach(dados)
 
 #---------------------------------------------------------------------------------------
 
+#----------------- Relacao usa internet para trabalho X Trabalha ou não ------------------------------------------
+attach(dados)
+Semestre
+Você.utiliza.a.internet.para.trabalho.
+
+
+freqSemestre <- table(Semestre)
+freqSemestre
+names(freqSemestre) <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "14")  # Ajuste conforme necessário
+
+freqInternetParaTrabalho <- table(Você.utiliza.a.internet.para.trabalho.)
+freqInternetParaTrabalho
+names(freqInternetParaTrabalho) <- c("Sim", "Não")
+
+tabela_contingencia <- table(Semestre, Você.utiliza.a.internet.para.trabalho.)
+df_tabela_contingencia <- as.data.frame(tabela_contingencia)
+colnames(df_tabela_contingencia) <- c("Semestre", "Você.utiliza.a.internet.para.trabalho.", "Frequencia")
+
+ggplot(df_tabela_contingencia, aes(x = Semestre, y = Frequencia, fill = Você.utiliza.a.internet.para.trabalho.)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Relação entre usar a internet para trabalho x Semestre",
+       x = "Semestre",
+       y = "Frequencia",
+       fill = "Você utiliza internet para trabalho?") +
+  theme_minimal()
+detach(dados)
+
+#---------------------------------------------------------------------------------------
 
 
 # ----------------------------------------------------------------------------------
