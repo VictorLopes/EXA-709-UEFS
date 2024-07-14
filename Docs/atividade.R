@@ -20,6 +20,31 @@ dados <- read.csv(caminho_arquivo, header = TRUE, sep = ",", stringsAsFactors = 
 View(dados) # ver o banco de dados
 names(dados) # ver o nome das variaveis que estao no arquivo
 
+
+#------------------------- Uso do computador  ------------------------------
+# Criar a tabela de frequências
+tabela_computador <- table(dados$Há.quanto.tempo.utiliza.computador.)
+# Calcular as porcentagens
+porcentagens <- round(tabela_computador / sum(tabela_computador) * 100, 1)
+# Definir uma paleta de cores suficientemente grande
+cores <- rainbow(length(tabela_computador))
+
+# Criar o gráfico de barras
+bp <- barplot(tabela_computador,
+              main = "Há quanto tempo o participante utiliza o computador",
+              col = cores,
+              ylim = c(0, max(tabela_computador) * 1.2),  # Ajustar o limite superior do eixo y para espaço suficiente para os rótulos
+              names.arg = names(tabela_computador),  # Incluir os nomes das categorias no eixo x
+              xlab = "Tempo de uso do computador",
+              ylab = "Frequência")
+# Adicionar rótulos (percentuais) sobre as barras
+text(x = bp,  # Posições horizontais das barras
+     y = tabela_computador + 0.5,  # Ajustar a posição vertical dos rótulos
+     labels = paste0(porcentagens, "%"),  # Incluir os percentuais como rótulos
+     pos = 3)  # Posição 3 para alinhar acima das barras
+# Adicionar legenda
+legend("topright", legend = names(tabela_computador), fill = cores)
+
 #------------------------- Sexo ------------------------------
 tabela_sexo <- table(dados$Sexo)
 porcentagens <- round(tabela_sexo / sum(tabela_sexo) * 100, 1)
