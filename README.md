@@ -30,7 +30,7 @@ At the end, we'll need to extract those information in charts and make a slide f
 + [x] Age
 + [x] Semester
 + [x] How much time uses internet
-+ [ ] How long have been using computer
++ [x] How long have been using computer
 + [ ] Believe that internet disturbs the graduation
 ---
 + [x] Age x Internet using time (daily)
