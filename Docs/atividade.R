@@ -254,8 +254,8 @@ attach(dados)
 tempo_conectado_internet_diario
 
 # Calcular a frequência do tempo de conexão
-freqTempoConexao <- table(tempo_conectado_internet_diario)
 names(freqTempoConexao) <- c("1-3 horas", "3-6 horas", "Acima de 6 horas")
+freqTempoConexao <- table(tempo_conectado_internet_diario)
 
 # Transformar a tabela de frequências em um data frame
 df_freqTempoConexao <- as.data.frame(freqTempoConexao)
@@ -276,30 +276,31 @@ limites_sup <- c(3, 6, 12)
 
 # Calcular os pontos médios das classes
 pontos_medios <- (limites_inf + limites_sup) / 2
-
-# soma das frequencias
-total <- sum(freq)
+cat("Pontos medios:", pontos_medios)
 
 # Calcular a moda
-moda <- pontos_medios[which.max(freq)]
-cat("Moda:", moda)
+moda <- names(which.max(freqTempoConexao))
+cat("Moda:", moda, "\n")
+
+# soma das frequencias
+tempoTotal <- sum(freqTempoConexao)
 
 # Calcular a média ponderada
-media <- sum(pontos_medios * freq) / total
+media <- sum(pontos_medios * freqTempoConexao) / tempoTotal
 cat("Média ponderada:", media)
 
 # Calcular a mediana
-freq_acum <- cumsum(freq)
+freq_acum <- cumsum(freqTempoConexao)
 amplitudes <- limites_sup - limites_inf
-emd <- total/2 #elemento mediano
+emd <- tempoTotal/2 #elemento mediano
 classe_mediana <- which.max(freq_acum >= emd)  # Encontrar a classe mediana
-x = (emd - freq_acum[classe_mediana-1])/freq[classe_mediana]
+x = (emd - freq_acum[classe_mediana-1])/freqTempoConexao[classe_mediana]
 mediana <- limites_inf[classe_mediana] + (amplitudes[classe_mediana] * x) 
 cat("Mediana ponderada:", mediana, "\n")
 
 # Calcular o desvio padrão e variância
-somatorio <- sum(freq * (pontos_medios - media)^2)
-variancia <- somatorio/(total - 1)
+somatorio <- sum(freqTempoConexao * (pontos_medios - media)^2)
+variancia <- somatorio/(tempoTotal - 1)
 desvio_padrao <- sqrt(variancia)
 cat("Variância:", variancia, "\n")
 cat("Desvio padrão:", desvio_padrao, "\n")
