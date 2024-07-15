@@ -42,8 +42,8 @@ barplot(tabela_computador,
 legend("topright", legend = names(tabela_computador), fill = cores)
 
 #Definir os limites das classes
-limites_inf <- c(0, 2.5, 5, 7.5, 10, 12.5)
-limites_sup <- c(2.5, 5, 7.5, 10, 12.5,15)
+limites_inf <- c(0, 1, 4, 7, 10, 12)
+limites_sup <- c(1,3, 6, 9, 12, 14)
 
 
 # Calcular os pontos médios das classes
