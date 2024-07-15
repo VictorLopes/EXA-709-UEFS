@@ -23,6 +23,9 @@ names(dados) # ver o nome das variaveis que estao no arquivo
 
 #------------------------- Uso do computador  ------------------------------
 # Criar a tabela de frequências
+tabela_computador <- table(Há.quanto.tempo.utiliza.computador.)
+names(tabela_computador) <-c("menos de 1 ano", "1-3 anos", "4-6 anos", "7-9 anos", "10-12 anos", "mais de 12 anos")
+
 tabela_computador <- table(dados$Há.quanto.tempo.utiliza.computador.)
 # Calcular as porcentagens
 porcentagens <- round(tabela_computador / sum(tabela_computador) * 100, 1)
@@ -30,7 +33,7 @@ porcentagens <- round(tabela_computador / sum(tabela_computador) * 100, 1)
 cores <- rainbow(length(tabela_computador))
 
 # Criar o gráfico de barras
-bp <- barplot(tabela_computador,
+barplot(tabela_computador,
               main = "Há quanto tempo o participante utiliza o computador",
               col = cores,
               ylim = c(0, max(tabela_computador) * 1.2),  # Ajustar o limite superior do eixo y para espaço suficiente para os rótulos
@@ -38,12 +41,54 @@ bp <- barplot(tabela_computador,
               xlab = "Tempo de uso do computador",
               ylab = "Frequência")
 # Adicionar rótulos (percentuais) sobre as barras
-text(x = bp,  # Posições horizontais das barras
+text(x = tabela_computador,  # Posições horizontais das barras
      y = tabela_computador + 0.5,  # Ajustar a posição vertical dos rótulos
      labels = paste0(porcentagens, "%"),  # Incluir os percentuais como rótulos
      pos = 3)  # Posição 3 para alinhar acima das barras
 # Adicionar legenda
 legend("topright", legend = names(tabela_computador), fill = cores)
+
+#Definir os limites das classes
+limites_inf <- c(0, 2.5, 5, 7.5, 10, 12.5)
+limites_sup <- c(2.5, 5, 7.5, 10, 12.5,15)
+
+
+# Calcular os pontos médios das classes
+pontos_medios <- (limites_inf + limites_sup) / 2
+
+# soma das frequencias
+total <- sum(tabela_computador)
+
+# Calcular a moda
+moda <- pontos_medios[which.max(tabela_computador)]
+cat("Moda:", moda)
+
+
+# Calcular a média ponderada
+media <- sum(pontos_medios * freq) / total
+cat("Média ponderada:", media)
+
+
+# Calcular a mediana
+freq_acum <- cumsum(freq)
+amplitudes <- limites_sup - limites_inf
+emd <- total/2 #elemento mediano
+classe_mediana <- which.max(freq_acum >= emd)  # Encontrar a classe mediana
+x = (emd - freq_acum[classe_mediana-1])/freq[classe_mediana]
+mediana <- limites_inf[classe_mediana] + (amplitudes[classe_mediana] * x) 
+cat("Mediana ponderada:", mediana, "\n")
+
+# Calcular o desvio padrão e variância
+somatorio <- sum(freq * (pontos_medios - media)^2)
+variancia <- somatorio/(total - 1)
+desvio_padrao <- sqrt(variancia)
+cat("Variância:", variancia, "\n")
+cat("Desvio padrão:", desvio_padrao, "\n")
+
+#Coeficiente de variacao
+coef_variacao <- (desvio_padrao / media) * 100
+cat("Coeficiente de variação", coef_variacao, "\n")
+
 
 #------------------------- Sexo ------------------------------
 tabela_sexo <- table(dados$Sexo)
