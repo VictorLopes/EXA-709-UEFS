@@ -26,9 +26,12 @@ names(dados) # ver o nome das variaveis que estao no arquivo
 
 names(tabela_computador) <-c("menos de 1 ano", "1-3 anos", "4-6 anos", "7-9 anos", "10-12 anos", "mais de 12 anos")
 tabela_computador <- table(dados$Há.quanto.tempo.utiliza.computador.)
-
+# Definir uma paleta de cores suficientemente grande
 # Definir uma paleta de cores suficientemente grande
 cores <- rainbow(length(tabela_computador))
+
+# Ajustar tamanho do dispositivo gráfico
+par(pin = c(8, 6))  # pin define o tamanho do gráfico em polegadas (largura, altura)
 
 # Criar o gráfico de barras
 barplot(tabela_computador,
@@ -37,9 +40,12 @@ barplot(tabela_computador,
               ylim = c(0, max(tabela_computador) * 1.2),  # Ajustar o limite superior do eixo y para espaço suficiente para os rótulos
               names.arg = names(tabela_computador),  # Incluir os nomes das categorias no eixo x
               xlab = "Tempo de uso do computador",
-              ylab = "Frequência")
+              ylab = "Frequência",
+              cex.names=0.9)
+
 # Adicionar legenda
 legend("topright", legend = names(tabela_computador), fill = cores)
+
 
 #Definir os limites das classes
 limites_inf <- c(0, 1, 4, 7, 10, 12)
