@@ -23,12 +23,10 @@ names(dados) # ver o nome das variaveis que estao no arquivo
 
 #------------------------- Uso do computador  ------------------------------
 # Criar a tabela de frequências
-tabela_computador <- table(Há.quanto.tempo.utiliza.computador.)
-names(tabela_computador) <-c("menos de 1 ano", "1-3 anos", "4-6 anos", "7-9 anos", "10-12 anos", "mais de 12 anos")
 
+names(tabela_computador) <-c("menos de 1 ano", "1-3 anos", "4-6 anos", "7-9 anos", "10-12 anos", "mais de 12 anos")
 tabela_computador <- table(dados$Há.quanto.tempo.utiliza.computador.)
-# Calcular as porcentagens
-porcentagens <- round(tabela_computador / sum(tabela_computador) * 100, 1)
+
 # Definir uma paleta de cores suficientemente grande
 cores <- rainbow(length(tabela_computador))
 
@@ -40,11 +38,6 @@ barplot(tabela_computador,
               names.arg = names(tabela_computador),  # Incluir os nomes das categorias no eixo x
               xlab = "Tempo de uso do computador",
               ylab = "Frequência")
-# Adicionar rótulos (percentuais) sobre as barras
-text(x = tabela_computador,  # Posições horizontais das barras
-     y = tabela_computador + 0.5,  # Ajustar a posição vertical dos rótulos
-     labels = paste0(porcentagens, "%"),  # Incluir os percentuais como rótulos
-     pos = 3)  # Posição 3 para alinhar acima das barras
 # Adicionar legenda
 legend("topright", legend = names(tabela_computador), fill = cores)
 
@@ -65,30 +58,27 @@ cat("Moda:", moda)
 
 
 # Calcular a média ponderada
-media <- sum(pontos_medios * freq) / total
+media <- sum(pontos_medios * tabela_computador) / total
 cat("Média ponderada:", media)
 
-
 # Calcular a mediana
-freq_acum <- cumsum(freq)
+freq_acum <- cumsum(tabela_computador)
 amplitudes <- limites_sup - limites_inf
 emd <- total/2 #elemento mediano
 classe_mediana <- which.max(freq_acum >= emd)  # Encontrar a classe mediana
-x = (emd - freq_acum[classe_mediana-1])/freq[classe_mediana]
+x = (emd - freq_acum[classe_mediana-1])/tabela_computador[classe_mediana]
 mediana <- limites_inf[classe_mediana] + (amplitudes[classe_mediana] * x) 
 cat("Mediana ponderada:", mediana, "\n")
 
 # Calcular o desvio padrão e variância
-somatorio <- sum(freq * (pontos_medios - media)^2)
+somatorio <- sum(tabela_computador * (pontos_medios - media)^2)
 variancia <- somatorio/(total - 1)
 desvio_padrao <- sqrt(variancia)
 cat("Variância:", variancia, "\n")
 cat("Desvio padrão:", desvio_padrao, "\n")
-
 #Coeficiente de variacao
 coef_variacao <- (desvio_padrao / media) * 100
 cat("Coeficiente de variação", coef_variacao, "\n")
-
 
 #------------------------- Sexo ------------------------------
 tabela_sexo <- table(dados$Sexo)
