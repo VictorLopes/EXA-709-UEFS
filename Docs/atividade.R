@@ -195,6 +195,30 @@ cat("Desvio padrão:", desvio_padrao, "\n")
 coef_variacao <- (desvio_padrao / media) * 100
 cat("Coeficiente de variação", coef_variacao, "\n")
 
+#----------------- Relacao entre idade X Dispositivo Usado------------------------------------------
+attach(dados)
+Idade
+Qual.o.dispositivo.móvel.que.você.mais.acessa.
+
+tabela_idade <- table(Idade)
+names(tabela_idade) <- c("17-20", "21-30", "31-40", "41-50")
+
+tabela_dispositivo <- table(Qual.o.dispositivo.móvel.que.você.mais.acessa.)
+names(tabela_dispositivo) <- c("celular", "tablet","Computador/notebook")
+
+tablea_evento <- table(Idade, Qual.o.dispositivo.móvel.que.você.mais.acessa.)
+def_tabela_evento <- as.data.frame(tablea_evento)
+colnames(def_tabela_evento) <- c("Idade", "Dispositivo", "Frequencia")
+
+ggplot(def_tabela_evento, aes(x=Idade, y =Frequencia, fill= Dispositivo)) + 
+  geom_bar(stat= "identity", position="dodge")+
+  labs(title = "Relação entre idade x Dispositivo Usado",
+       x="Faixa Etária",
+       y="Frequência",
+       fill="Dispositivo")+ theme_minimal()
+
+detach(dados)
+
 #----------------- Relacao entre idade X tempo conexao internet------------------------------------------
 attach(dados)
 Idade
