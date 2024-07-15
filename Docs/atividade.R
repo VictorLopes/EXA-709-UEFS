@@ -344,6 +344,21 @@ ggplot(df_tabela_contingencia, aes(x = Idade, y = Frequencia, fill = Você.consi
   theme_minimal()
 detach(dados)
 
+#----------------- Voce acredita que a internet atrapalha a sua formacao? ------------------------------------------
+
+attach(dados)
+
+tabela_acredita <- table(dados$Você.acredita.que.a.internet.atrapalha.a.sua.formação.)
+
+porcento_acredita <- round(tabela_acredita / sum(tabela_acredita) * 100, 1)
+
+# Plotar gráfico de pizza com porcentagens formatadas
+pie(tabela_acredita, main = "Acreditam que a internet atrapalha a formação", labels = paste(names(tabela_acredita), "\n", porcento_acredita, "%"), col = c("lightgreen", "red"))
+
+
+detach(dados)
+
+# ----------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------
 #CODIGO ABAIXO É O ANTIGO, ADICIONAR ACIMA TODOS OS NOSSOS E DIVIDIR EM SEÇÃO
 #------------------------------------------------------------------------------------
