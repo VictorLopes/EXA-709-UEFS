@@ -300,6 +300,45 @@ ggplot(df_freqTempoConexao, aes(x = TempoConexao, y = Frequencia, fill = TempoCo
   theme_minimal() +
   theme(legend.position = "none")
 
+  # Definir os limites das classes
+limites_inf <- c(1, 3, 6)
+limites_sup <- c(3, 6, 12)
+
+# Calcular os pontos médios das classes
+pontos_medios <- (limites_inf + limites_sup) / 2
+cat("Pontos medios:", pontos_medios)
+
+# Calcular a moda
+moda <- names(which.max(freqTempoConexao))
+cat("Moda:", moda, "\n")
+
+# soma das frequencias
+tempoTotal <- sum(freqTempoConexao)
+
+# Calcular a média ponderada
+media <- sum(pontos_medios * freqTempoConexao) / tempoTotal
+cat("Média ponderada:", media)
+
+# Calcular a mediana
+freq_acum <- cumsum(freqTempoConexao)
+amplitudes <- limites_sup - limites_inf
+emd <- tempoTotal/2 #elemento mediano
+classe_mediana <- which.max(freq_acum >= emd)  # Encontrar a classe mediana
+x = (emd - freq_acum[classe_mediana-1])/freqTempoConexao[classe_mediana]
+mediana <- limites_inf[classe_mediana] + (amplitudes[classe_mediana] * x) 
+cat("Mediana ponderada:", mediana, "\n")
+
+# Calcular o desvio padrão e variância
+somatorio <- sum(freqTempoConexao * (pontos_medios - media)^2)
+variancia <- somatorio/(tempoTotal - 1)
+desvio_padrao <- sqrt(variancia)
+cat("Variância:", variancia, "\n")
+cat("Desvio padrão:", desvio_padrao, "\n")
+
+#Coeficiente de variacao
+coef_variacao <- (desvio_padrao / media) * 100
+cat("Coeficiente de variação", coef_variacao, "\n")
+
 
 #----------------- Relação Idade x Ambiente tóxico ------------------------------------------#
 attach(dados)
@@ -340,11 +379,30 @@ detach(dados)
 
 # ----------------------------------------------------------------------------------
 
-#----------------- How much time uses internet x Which device uses ------------------------------------------
+#----------------- Tempo de uso da internet x Dispositivo utilizado ------------------------------------------
 
 attach(dados)
+#--------------------------------------------------------------
+tempo_conectado_internet_diario
+Qual.o.dispositivo.móvel.que.você.mais.acessa.
 
-tabela_disp_movel <- table(dados$Qual.o.dispositivo.móvel.que.você.mais.acessa.)
-tabela_tempo_conectado <- table(dados$tempo_conectado_internet_diario)
+tabela_dispositivo <- table(Qual.o.dispositivo.móvel.que.você.mais.acessa.) #FreqIdade
+names(tabela_dispositivo) <- c("celular", "tablet","Computador/notebook") 
 
+freqTempoConexao <- table(tempo_conectado_internet_diario)
+names(freqTempoConexao) <- c("1-3 horas", "3-6 horas", "Acima de 6 horas")
+
+tabela_contingencia <- table(Qual.o.dispositivo.móvel.que.você.mais.acessa., tempo_conectado_internet_diario)
+df_tabela_contingencia <- as.data.frame(tabela_contingencia)
+colnames(df_tabela_contingencia) <- c("Dispositivo", "TempoConexao","Frequencia")
+
+ggplot(df_tabela_contingencia, aes(x = TempoConexao, y = Frequencia, fill = Dispositivo)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Dispositivo utilizado x tempo de conexão diária com a Internet",
+       x = "Tempo de conexão",
+       y = "Frequência",
+       fill = "Dispositivo") +
+  theme_minimal()
+#--------------------------------------------------------------
 detach(dados)
+# ------------------------------------------------------------------------------------------------
