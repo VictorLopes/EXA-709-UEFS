@@ -300,46 +300,7 @@ ggplot(df_freqTempoConexao, aes(x = TempoConexao, y = Frequencia, fill = TempoCo
   theme_minimal() +
   theme(legend.position = "none")
 
-  # Definir os limites das classes
-limites_inf <- c(1, 3, 6)
-limites_sup <- c(3, 6, 12)
-
-# Calcular os pontos médios das classes
-pontos_medios <- (limites_inf + limites_sup) / 2
-cat("Pontos medios:", pontos_medios)
-
-# Calcular a moda
-moda <- names(which.max(freqTempoConexao))
-cat("Moda:", moda, "\n")
-
-# soma das frequencias
-tempoTotal <- sum(freqTempoConexao)
-
-# Calcular a média ponderada
-media <- sum(pontos_medios * freqTempoConexao) / tempoTotal
-cat("Média ponderada:", media)
-
-# Calcular a mediana
-freq_acum <- cumsum(freqTempoConexao)
-amplitudes <- limites_sup - limites_inf
-emd <- tempoTotal/2 #elemento mediano
-classe_mediana <- which.max(freq_acum >= emd)  # Encontrar a classe mediana
-x = (emd - freq_acum[classe_mediana-1])/freqTempoConexao[classe_mediana]
-mediana <- limites_inf[classe_mediana] + (amplitudes[classe_mediana] * x) 
-cat("Mediana ponderada:", mediana, "\n")
-
-# Calcular o desvio padrão e variância
-somatorio <- sum(freqTempoConexao * (pontos_medios - media)^2)
-variancia <- somatorio/(tempoTotal - 1)
-desvio_padrao <- sqrt(variancia)
-cat("Variância:", variancia, "\n")
-cat("Desvio padrão:", desvio_padrao, "\n")
-
-#Coeficiente de variacao
-coef_variacao <- (desvio_padrao / media) * 100
-cat("Coeficiente de variação", coef_variacao, "\n")
-
-
+ 
 #----------------- Relação Idade x Ambiente tóxico ------------------------------------------#
 attach(dados)
 Idade
