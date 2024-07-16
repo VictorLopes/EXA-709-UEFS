@@ -379,11 +379,32 @@ detach(dados)
 
 # ----------------------------------------------------------------------------------
 
-#----------------- How much time uses internet x Which device uses ------------------------------------------
+#----------------- Tempo de uso da internet x Dispositivo utilizado ------------------------------------------
 
 attach(dados)
+#--------------------------------------------------------------
+tempo_conectado_internet_diario
+Qual.o.dispositivo.móvel.que.você.mais.acessa.
 
-tabela_disp_movel <- table(dados$Qual.o.dispositivo.móvel.que.você.mais.acessa.)
-tabela_tempo_conectado <- table(dados$tempo_conectado_internet_diario)
+tabela_dispositivo <- table(Qual.o.dispositivo.móvel.que.você.mais.acessa.) #FreqIdade
+names(tabela_dispositivo) <- c("celular", "tablet","Computador/notebook") 
 
+freqTempoConexao <- table(tempo_conectado_internet_diario)
+names(freqTempoConexao) <- c("1-3 horas", "3-6 horas", "Acima de 6 horas")
+
+tabela_contingencia <- table(Qual.o.dispositivo.móvel.que.você.mais.acessa., tempo_conectado_internet_diario)
+df_tabela_contingencia <- as.data.frame(tabela_contingencia)
+colnames(df_tabela_contingencia) <- c("Dispositivo", "TempoConexao","Frequencia")
+
+ggplot(df_tabela_contingencia, aes(x = TempoConexao, y = Frequencia, fill = Dispositivo)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Dispositivo utilizado x tempo de conexão diária com a Internet",
+       x = "Faixa Etária",
+       y = "Frequência",
+       fill = "Tempo de Conexão") +
+  theme_minimal()
 detach(dados)
+
+#--------------------------------------------------------------
+detach(dados)
+# ------------------------------------------------------------------------------------------------
