@@ -36,5 +36,5 @@ At the end, we'll need to extract those information in charts and make a slide f
 + [x] Age x Internet using time (daily)
 + [x] Using internet for work x Semester
 + [x] Age x Consider social network a toxic environment
-+ [ ] How much time uses internet x Which device uses
++ [x] How much time uses internet x Which device uses
 + [ ] Age x Which device uses

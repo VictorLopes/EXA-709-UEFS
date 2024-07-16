@@ -399,12 +399,10 @@ colnames(df_tabela_contingencia) <- c("Dispositivo", "TempoConexao","Frequencia"
 ggplot(df_tabela_contingencia, aes(x = TempoConexao, y = Frequencia, fill = Dispositivo)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(title = "Dispositivo utilizado x tempo de conexão diária com a Internet",
-       x = "Faixa Etária",
+       x = "Tempo de conexão",
        y = "Frequência",
-       fill = "Tempo de Conexão") +
+       fill = "Dispositivo") +
   theme_minimal()
-detach(dados)
-
 #--------------------------------------------------------------
 detach(dados)
 # ------------------------------------------------------------------------------------------------
